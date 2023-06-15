@@ -1,6 +1,7 @@
-FROM python:3-alpine3.15
-WORKDIR /app
+FROM python:alpine3.7
 COPY . /app
+WORKDIR /app
 RUN pip install -r requirements.txt
-EXPOSE 3000
-CMD python ./index.py
+EXPOSE 5001
+ENTRYPOINT [ "python" ]
+CMD [ "app.py" ]
