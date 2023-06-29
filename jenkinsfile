@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pradeeprp54/hello-world-python.git']])
+            }
+        }
+       
+        stage('Build') {
+            steps {
+                git branch: 'main', url: 'https://github.com/pradeeprp54/hello-world-python.git'
+                sh '''python3 helloworld.py
+docker ps'''
+               
+            }
+           
+        }
+       
+        stage('Execute docker commands') {
+            steps {
+                //sh '''export flask_application=app.py
+//flask run --host=0.0.0.0 --port=8081'''
+              sh '''docker rm flask-docker-demo-app2
+docker build --tag flask-docker-demo-app2 .
+docker run --name flask-docker-demo-app2 -p 5001:5001 flask-docker-demo-app2
+docker ps'''
+            }
+        }
+    }
+}
